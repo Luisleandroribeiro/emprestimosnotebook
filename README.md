@@ -1,7 +1,9 @@
 Resumo do Projeto de Empréstimos de Notebooks
+
 O projeto de Empréstimos de Notebooks é uma aplicação web voltada para o gerenciamento de empréstimos de notebooks em uma instituição, como uma biblioteca ou setor de TI de uma universidade. O sistema permite o registro de novos empréstimos, o acompanhamento do status dos empréstimos e a devolução dos notebooks de forma simples e eficiente.
 
 Funcionalidades Principais:
+
 Registro de Empréstimos:
 
 O sistema permite que os usuários registrem novos empréstimos de notebooks para os alunos, associando cada notebook a um QR Code exclusivo do aluno.
