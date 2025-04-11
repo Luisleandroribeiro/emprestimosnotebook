@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Empréstimos de Notebooks</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-4">
+    <h1>Empréstimos de Notebooks</h1>
+
+    <!-- Exibição de Mensagem de Erro -->
+    <div th:if="${param.error}" class="alert alert-danger">
+        <p th:text="${param.error}"></p>
+    </div>
+
+    <!-- Exibição de Mensagem de Sucesso -->
+    <div th:if="${param.success}" class="alert alert-success">
+        <p th:text="${param.success}"></p>
+    </div>
+
+    <!-- Exibição de Contadores -->
+    <div class="row mb-3">
+        <div class="col">
+            <h4>Total de Notebooks Emprestados: <span th:text="${totalEmprestados}"></span></h4>
+        </div>
+        <div class="col">
+            <h4>Total de Notebooks Pendentes de Devolução: <span th:text="${totalPendentes}"></span></h4>
+        </div>
+    </div>
+
+    <!-- Tabela de Empréstimos -->
+    <table class="table table-bordered mt-3">
+        <thead>
+        <tr>
+            <th>Código do Aluno</th>
+            <th>Notebook</th>
+            <th>Data de Retirada</th>
+            <th>Data de Devolução</th> <!-- Coluna de Data de Devolução -->
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="emprestimo : ${emprestimos}">
+            <tr>
+                <td th:text="${emprestimo.aluno.qrCode}"></td>
+                <td th:text="${emprestimo.notebook.codigoBarra}"></td>
+                <td th:text="${#temporals.format(emprestimo.dataRetirada, 'dd/MM/yyyy HH:mm')}"></td>
+                <td th:text="${emprestimo.dataDevolucao != null ? #temporals.format(emprestimo.dataDevolucao, 'dd/MM/yyyy HH:mm') : 'Não devolvido'}"></td>
+                <td th:text="${emprestimo.dataDevolucao != null ? 'Devolvido' : 'Em aberto'}"></td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+
+    <!-- Botões -->
+    <a href="/novo-emprestimo" class="btn btn-primary">Novo Empréstimo</a>
+    <a href="/exportar-para-excel" class="btn btn-success">Exportar para Excel</a>
+
+    <!-- Formulário de Devolução -->
+    <div class="mt-4">
+        <h2>Registrar Devolução</h2>
+        <form action="/emprestimos/devolucao" method="POST">
+            <div class="mb-3">
+                <label for="codigoNotebookDevolucao" class="form-label">Código de Barras do Notebook</label>
+                <input type="text" class="form-control" id="codigoNotebookDevolucao" name="codigoNotebook" required>
+            </div>
+            <button type="submit" class="btn btn-warning">Registrar Devolução</button>
+        </form>
+    </div>
+    <p></p>
+
+    <!-- Botão para Remover Todos os Notebooks -->
+    <form action="/remover-todos-dados" method="post">
+        <button type="submit" class="btn btn-danger">Remover Todos os Dados (Empréstimos)</button>
+    </form>
+</div>
+
+<!-- Formulário de Novo Empréstimo -->
+<div class="container mt-4" id="form-container" style="display: none;">
+    <h2>Registrar Novo Empréstimo</h2>
+    <form action="/emprestimos/novo" method="POST">
+        <div class="mb-3">
+            <label for="qrCodeAluno" class="form-label">QR Code do Aluno</label>
+            <input type="text" class="form-control" id="qrCodeAluno" name="qrCodeAluno" required>
+        </div>
+        <div class="mb-3">
+            <label for="codigoNotebook" class="form-label">Código de Barras do Notebook</label>
+            <input type="text" class="form-control" id="codigoNotebook" name="codigoNotebook" required>
+        </div>
+        <button type="submit" class="btn btn-success">Registrar Empréstimo</button>
+        <a href="/" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+
+<!-- Script para Alternar o Formulário -->
+<script>
+    const formContainer = document.getElementById("form-container");
+
+    // Se a URL for /novo-emprestimo, exibe o formulário
+    if (window.location.pathname === "/novo-emprestimo") {
+        formContainer.style.display = "block";
+    }
+</script>
+</body>
+</html>

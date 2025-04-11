@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novo Empréstimo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-4">
+    <h1>Novo Empréstimo</h1>
+
+    <!-- Exibição de Mensagem de Erro -->
+    <div th:if="${error}" class="alert alert-danger">
+        <p th:text="${error}"></p>
+    </div>
+
+    <!-- Formulário de Novo Empréstimo -->
+    <form action="/emprestimos/novo" method="POST">
+        <div class="mb-3">
+            <label for="qrCodeAluno" class="form-label">QR Code do Aluno</label>
+            <input type="text" class="form-control" id="qrCodeAluno" name="qrCodeAluno" required>
+        </div>
+        <div class="mb-3">
+            <label for="codigoNotebook" class="form-label">Código de Barras do Notebook</label>
+            <input type="text" class="form-control" id="codigoNotebook" name="codigoNotebook" required>
+        </div>
+        <button type="submit" class="btn btn-success">Registrar Empréstimo</button>
+        <a href="/emprestimos" class="btn btn-secondary">Voltar</a>
+    </form>
+</div>
+</body>
+</html>
